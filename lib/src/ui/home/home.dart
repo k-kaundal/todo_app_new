@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Widget> widgetsList = [
-    AddTodo(),
+    // AddTodo(),
     AllTodos(),
     Dashboard(),
     Setting(),

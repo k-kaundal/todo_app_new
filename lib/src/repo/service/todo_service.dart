@@ -12,15 +12,9 @@ class TodoService {
 
   Stream<QuerySnapshot> getTodos() => ref.snapshots();
 
-  Future<List<DocumentSnapshot>> getTodo() async {
-    List<DocumentSnapshot> data = [];
-    await ref.get().then((value) {
-      value.docs.forEach((DocumentSnapshot documentSnapshot) {
-        data.add(documentSnapshot);
-      });
-    });
+  Future<DocumentSnapshot> getTodo(String id) async {
     // Map<String, dynamic> toData = snapshot.data!.data() as Map<String, dynamic>;
-    return data;
+    return await ref.doc(id).get();;
   }
 
   Future<bool> checkTodo(String id) async {
@@ -35,5 +29,12 @@ class TodoService {
     });
     // Map<String, dynamic> toData = snapshot.data!.data() as Map<String, dynamic>;
     return isCorrect;
+  }
+
+  Future<Stream> deleteTodo(String id) async {
+    return ref.doc(id).delete().asStream();
+  }
+ Future<Stream> updateStatus(String id,value) async{
+    return ref.doc(id).update({'isCheck':value}).asStream();
   }
 }
