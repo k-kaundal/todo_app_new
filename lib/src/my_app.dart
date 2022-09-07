@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app_new/src/bloc/add_todo/add_todo_bloc.dart';
+import 'package:todo_app_new/src/bloc/get_todo/get_todo_bloc.dart';
 import 'package:todo_app_new/src/bloc/theme/theme_cubit.dart';
 import 'package:todo_app_new/src/repo/db/hive_string.dart';
 import 'package:todo_app_new/src/repo/db/my_db.dart';
 import 'package:todo_app_new/src/repo/repository/add_todo_repository.dart';
+import 'package:todo_app_new/src/repo/repository/get_todo_repository.dart';
 import 'package:todo_app_new/src/ui/home/home.dart';
 
 class MyApp extends StatelessWidget {
@@ -24,6 +26,11 @@ class MyApp extends StatelessWidget {
                 AddTodoBloc(AddTodoRepositoryImp()),
             // child: Home(),
           ),
+          BlocProvider<GetTodoBloc>(
+            create: (BuildContext context) =>
+                GetTodoBloc(GetTodoRepositoryImp()),
+            // child: Home(),
+          ),
           BlocProvider<ThemeCubit>(
             create: (BuildContext context) => ThemeCubit(LightThemeState(isDarkTheme?false:true
             )),
@@ -34,13 +41,17 @@ class MyApp extends StatelessWidget {
             if (state is DarkThemeState) {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
-                theme: ThemeData.dark(),
+                theme: ThemeData.dark(
+                  useMaterial3: true
+                ),
                 home: const Home(),
               );
             } else {
               return MaterialApp(
                 debugShowCheckedModeBanner: false,
-                theme: ThemeData.light(),
+                theme: ThemeData.light(
+                  useMaterial3: true
+                ),
                 home: const Home(),
               );
             }

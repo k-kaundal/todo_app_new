@@ -7,6 +7,7 @@ import 'package:todo_app_new/src/ui/add_todo/add_todo.dart';
 import 'package:todo_app_new/src/ui/all_todos/all_todo.dart';
 import 'package:todo_app_new/src/ui/dashboard/dashboard.dart';
 import 'package:todo_app_new/src/ui/setting/setting.dart';
+import 'package:todo_app_new/src/ui/todo/todo.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Widget> widgetsList = [
+    Todo(),
     // AddTodo(),
     AllTodos(),
     Dashboard(),

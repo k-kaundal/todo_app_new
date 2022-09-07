@@ -4,11 +4,9 @@ import 'package:todo_app_new/src/repo/service/todo_service.dart';
 
 abstract class AddTodoRepository {
   Future addTodo(TodoModel todoModel,String id);
-
   Future<DocumentSnapshot> getTodo(String id);
   Future<bool> checkTodo(String id);
 }
-
 
 class AddTodoRepositoryImp extends AddTodoRepository {
   TodoService todoService = TodoService();
