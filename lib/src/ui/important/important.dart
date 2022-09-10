@@ -1,24 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app_new/src/model/todo_model.dart';
 import 'package:todo_app_new/src/repo/service/todo_service.dart';
 import 'package:todo_app_new/src/ui/add_todo/add_todo.dart';
 import 'package:todo_app_new/src/ui/todo/todo.dart';
-
-class AllTodos extends StatefulWidget {
-  const AllTodos({Key? key}) : super(key: key);
+class Important extends StatefulWidget {
+  const Important({Key? key}) : super(key: key);
 
   @override
-  State<AllTodos> createState() => _AllTodosState();
+  State<Important> createState() => _ImportantState();
 }
 
-class _AllTodosState extends State<AllTodos> {
+class _ImportantState extends State<Important> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: StreamBuilder(
-          stream: TodoService().getTodos(),
+          stream: TodoService().getImportantTodos(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
@@ -81,7 +79,7 @@ class _AllTodosState extends State<AllTodos> {
             return ListView(
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
-                    document.data()! as Map<String, dynamic>;
+                document.data()! as Map<String, dynamic>;
                 return Padding(
                   padding: EdgeInsets.only(
                       left: size.width * 0.01,
@@ -94,23 +92,25 @@ class _AllTodosState extends State<AllTodos> {
                         width: size.width,
                         // margin: EdgeInsets.only(top: 10,left: 10,right: 10),
                         decoration: BoxDecoration(
-                            color: data['isCheck'] ? Colors.green : Colors.blue,
+                            color: data['isCheck']
+                                ? Colors.green
+                                : Colors.blue,
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(10))),
+                            const BorderRadius.all(Radius.circular(10))),
                       ),
                     ),
                     Container(
                       height: size.height * 0.15,
                       width: size.width,
-                      margin: EdgeInsets.only(top: 10, left: 10),
+                      margin: EdgeInsets.only(top: 10,left: 10),
                       decoration: BoxDecoration(
                           color:
-                              // data['isCheck']
-                              //     ? Colors.yellowAccent
-                              //     :
-                              Colors.white,
+                          // data['isCheck']
+                          //     ? Colors.yellowAccent
+                          //     :
+                          Colors.white,
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
+                          const BorderRadius.all(Radius.circular(10))),
                       child: Row(children: [
                         Expanded(
                             flex: 2,
@@ -124,21 +124,21 @@ class _AllTodosState extends State<AllTodos> {
                                 child: Center(
                                   child: data['isCheck']
                                       ? Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: size.height * 0.01),
-                                          child: Image.asset(
-                                              'assets/images/check.png',
-                                              height: size.height * 0.05),
-                                        )
+                                    padding: EdgeInsets.only(
+                                        bottom: size.height * 0.01),
+                                    child: Image.asset(
+                                        'assets/images/check.png',
+                                        height: size.height * 0.05),
+                                  )
                                       : Padding(
-                                          padding: EdgeInsets.only(
-                                            right: size.width * 0.023,
-                                          ),
-                                          child: Image.asset(
-                                            'assets/images/unCheck.png',
-                                            height: size.height * 0.015,
-                                          ),
-                                        ),
+                                    padding: EdgeInsets.only(
+                                      right: size.width * 0.023,
+                                    ),
+                                    child: Image.asset(
+                                      'assets/images/unCheck.png',
+                                      height: size.height * 0.015,
+                                    ),
+                                  ),
                                 ),
                               ),
                             )),
@@ -157,8 +157,7 @@ class _AllTodosState extends State<AllTodos> {
                               child: Padding(
                                 padding: EdgeInsets.all(0),
                                 child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // SizedBox(height: size.height*0.01,),
@@ -183,8 +182,7 @@ class _AllTodosState extends State<AllTodos> {
                                     Container(
                                       width: size.width,
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                        crossAxisAlignment: CrossAxisAlignment.end,
                                         children: [
                                           Text(
                                             data['time'],
@@ -222,20 +220,20 @@ class _AllTodosState extends State<AllTodos> {
                               child: Column(children: [
                                 Expanded(
                                     child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      TodoService().addToImportant(data['id'],
-                                          data['isImportant'] ? false : true);
-                                    });
-                                  },
-                                  icon: Icon(
-                                    data['isImportant']
-                                        ? Icons.star_sharp
-                                        : Icons.star_border,
-                                    color: Colors.red,
-                                    size: 30,
-                                  ),
-                                )),
+                                      onPressed: () {
+                                        setState(() {
+                                          TodoService().addToImportant(data['id'],
+                                              data['isImportant'] ? false : true);
+                                        });
+                                      },
+                                      icon: Icon(
+                                        data['isImportant']
+                                            ? Icons.star_sharp
+                                            : Icons.star_border,
+                                        color: Colors.red,
+                                        size: 30,
+                                      ),
+                                    )),
                                 Expanded(
                                   child: InkWell(
                                     onTap: () async {
@@ -262,13 +260,6 @@ class _AllTodosState extends State<AllTodos> {
               }).toList(),
             );
           }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => AddTodo()));
-        },
-        child: Icon(Icons.add),
-      ),
     );
   }
 }
